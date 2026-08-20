@@ -16,24 +16,37 @@
 
 > Từ `make probe`. Paste output hoặc điền tay.
 
-- **OS:** _<macOS 14 / Windows 11 / Ubuntu 24.04 / ...>_
-- **CPU:** _<Apple M2 / Intel i7-12700H / AMD Ryzen 7 5800H>_
-- **Cores:** _<physical / logical>_
-- **CPU extensions:** _<AVX2 / AVX-512 / NEON / —>_
-- **RAM:** _<GB>_
-- **Accelerator:** _<NVIDIA RTX 4060 / Apple Metal / Vulkan / CPU only>_
-- **llama.cpp asset đã tải:** _<vd: llama-b10488-bin-macos-arm64.tar.gz>_
-- **Model đã dùng:** _<Gemma 4 E2B / Qwen3.5 0.8B>_ (`LAB_MODEL=`_<gemma4-e2b / qwen35-0.8b>_)
-- **Quantization:** _<primary>_ + _<compare>_ (từ `models/active.json`)
+  Platform : Linux 6.6.87.2-microsoft-standard-WSL2 (x86_64)
+  CPU      : 11th Gen Intel(R) Core(TM) i7-11850H @ 2.50GHz
+             8 physical · 16 logical cores
+             extensions: AVX-512, AVX2
+  RAM      : 15.5 GB
+  GPU      : nvidia_cuda
+             - nvidia: NVIDIA RTX A2000 Laptop GPU, 4096 MiB
+────────────────────────────────────────────────────────────────
 
-**Chạy ở đâu:** _<laptop của tôi / Colab / Kaggle>_
+  Model         : Gemma 4 E2B  [LAB_MODEL=gemma4-e2b]
+                  unsloth/gemma-4-E2B-it-GGUF  (~5.2 GB)
+                  primary  gemma-4-E2B-it-UD-Q4_K_XL.gguf  (2.97 GB)
+                  compare  gemma-4-E2B-it-UD-Q2_K_XL.gguf  (2.24 GB)
+                  chosen because: enough RAM for the default model
+  Other option  : LAB_MODEL=qwen35-0.8b  ->  Qwen3.5 0.8B, ~0.9 GB, needs 4.0 GB RAM
+  llama.cpp     : prebuilt release b10488  (llama-b10488-bin-win-cuda-12.4-x64.zip)
+  GPU offload   : OFF -- an accelerator is installed but this llama.cpp build enumerates no devices -- offload would silently run on CPU
+                  base track is unaffected (100 pts need no GPU).
+                  to use the CUDA you have, build from source:
+                  LLAMA_CMAKE_FLAGS=-DGGML_CUDA=ON make build-llama
+  source build  : -DGGML_CUDA=ON  (bonus B1 -- not used by the base track)
+  Tracks open   : 01-measure, 02-serve, 03-integrate, bonus/sweeps
+
+**Chạy ở đâu:** _<laptop của tôi>_
 _(Nếu dùng cloud fallback: nói rõ vì sao — RAM < 8 GB, setup fail, v.v. Không mất điểm.)_
 
 **Setup story** (≤ 80 chữ): điều gì cần thay đổi để lab chạy trên máy bạn? Có bước
 nào fail rồi phải workaround không?
 
 _Answer here._
-
+Không
 ---
 
 ## 2. Đo lường  *(rubric 3, 4, 5 — 20 điểm)*
@@ -41,16 +54,16 @@ _Answer here._
 > Paste bảng từ `benchmarks/01-quickstart-results.md` (`make bench` tự sinh).
 
 | Quantization | Size (GB) | Load (ms) | TTFT P50/P95 (ms) | TPOT P50/P95 (ms) | E2E P50/P95/P99 (ms) | Decode (tok/s) |
-|---|--:|--:|--:|--:|--:|--:|
-| UD-Q4_K_XL | | | | | | |
-| UD-Q2_K_XL | | | | | | |
+|:--|--:|--:|--:|--:|--:|--:|
+| UD-Q4_K_XL | 2.97 | 73020 | 377 / 434 | 63.9 / 65.8 | 4346 / 4559 / 4559 | 15.7 |
+| UD-Q2_K_XL | 2.24 | 56122 | 625 / 740 | 61.4 / 68.7 | 4444 / 4810 / 4810 | 16.3 |
 
 **Quan sát** (≤ 60 chữ): 2-bit nhanh hơn bao nhiêu, và **có đáng không**? Bạn đã thử
 hỏi cùng một câu trên cả hai (`make serve` vs `.venv/bin/python labs/02-serve/serve.py --compare`)
 chưa? Chất lượng khác nhau thế nào?
 
 _Answer here._
-
+Không đáng. Đã trả lời chi tiết trong quickstart
 ---
 
 ## 3. Serving under load  *(rubric 8, 9, 10 — 20 điểm)*
