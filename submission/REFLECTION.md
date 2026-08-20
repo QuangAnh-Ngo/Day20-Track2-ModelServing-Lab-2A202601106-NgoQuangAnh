@@ -45,7 +45,6 @@ _(Nếu dùng cloud fallback: nói rõ vì sao — RAM < 8 GB, setup fail, v.v. 
 **Setup story** (≤ 80 chữ): điều gì cần thay đổi để lab chạy trên máy bạn? Có bước
 nào fail rồi phải workaround không?
 
-_Answer here._
 Không
 ---
 
@@ -62,7 +61,6 @@ Không
 hỏi cùng một câu trên cả hai (`make serve` vs `.venv/bin/python labs/02-serve/serve.py --compare`)
 chưa? Chất lượng khác nhau thế nào?
 
-_Answer here._
 Không đáng. Đã trả lời chi tiết trong quickstart
 ---
 
@@ -139,7 +137,6 @@ memory bandwidth? vector width? cache residency? scheduling? queueing? Nếu k�
 **khác** với kỳ vọng từ deck — nói rõ, và giải thích vì sao. Grader thưởng điểm cho
 lập luận đúng về một kết quả bất ngờ, hơn là một con số đẹp không được giải thích._
 
-_Answer here._
 
 Kết quả `make tune` cho thấy throughput tăng từ `4.2 tok/s` ở 1 thread lên `12.8 tok/s` ở 4 threads và đạt tốt nhất `16.8 tok/s` ở 8 threads. Nhưng khi tăng tiếp lên 16 threads, tốc độ rơi mạnh xuống chỉ còn `4.5 tok/s`. Vì vậy thay đổi quan trọng nhất là không dùng hết logical cores, mà giới hạn về số physical cores. 
 
