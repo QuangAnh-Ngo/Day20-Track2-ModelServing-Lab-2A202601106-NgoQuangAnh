@@ -17,7 +17,17 @@ they arrived too far apart. A peak approaching `--parallel` means the scheduler 
 genuinely packing concurrent requests into shared decode steps.
 `requests_deferred` went above zero: more requests arrived than there were slots, so some waited. That wait is the queue time in your P95.
 
-## Your observation (required -- replace this line)
+## Your observation 
 
-_What was the peak batch width, and does it match the effective concurrency in
-`02-server-results.md`? If the two disagree, which do you trust and why?_
+Peak batch width quan sát được là **3.89/4 slots**, tức khoảng **97%** số decode
+slots đã được dùng. Điều này cho thấy continuous batching thật sự đang gom nhiều
+request vào cùng các decode step, thay vì phục vụ từng request một.
+
+Con số này không khớp trực tiếp với effective concurrency **14.2** trong
+`02-server-results.md`, nhưng hai metric đo hai thứ khác nhau. `n_busy_slots_per_decode`
+là số slot thật sự bận trong decode, nên bị chặn bởi `--parallel 4`. Effective
+concurrency = RPS x average latency, nên nó tính cả các request đang chờ trong
+queue; vì vậy nó có thể lớn hơn 4. Ở đây tôi tin gauge của llama.cpp hơn khi nói
+về batch width/slot utilization, còn effective concurrency hữu ích hơn để chứng
+minh có queueing. `requests_deferred` lên tới **46** xác nhận rằng server đã đầy
+slot và request mới phải chờ, làm P95 tăng.
