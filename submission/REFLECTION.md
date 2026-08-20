@@ -123,12 +123,13 @@ _Answer here._
 > một before/after thật (`benchmarks/01-tuning-tg128.md`). Đổi quantization,
 > `LAB_N_CTX`, hay `--parallel` rồi đo lại cũng được.
 
-**Change:** _<vd: hạ -t từ 16 xuống 8; vd: đổi sang UD-Q2_K_XL; vd: --parallel 4 → 8>_
+**Change:** hạ số thread từ `-t 16` xuống `-t 8`, tức dùng đúng 8 physical cores thay vì dùng hết 16 logical cores.
+
 
 ```
-before:  <số + đơn vị>
-after:   <số + đơn vị>
-speedup: <X.Y>×
+before:  4.5 tok/s  (-t 16)
+after:   16.8 tok/s (-t 8)
+speedup: 3.73×
 ```
 
 **Tại sao nó work** (1–2 đoạn — đây là phần grader đọc kỹ nhất):
@@ -139,6 +140,12 @@ memory bandwidth? vector width? cache residency? scheduling? queueing? Nếu k�
 lập luận đúng về một kết quả bất ngờ, hơn là một con số đẹp không được giải thích._
 
 _Answer here._
+
+Kết quả `make tune` cho thấy throughput tăng từ `4.2 tok/s` ở 1 thread lên `12.8 tok/s` ở 4 threads và đạt tốt nhất `16.8 tok/s` ở 8 threads. Nhưng khi tăng tiếp lên 16 threads, tốc độ rơi mạnh xuống chỉ còn `4.5 tok/s`. Vì vậy thay đổi quan trọng nhất là không dùng hết logical cores, mà giới hạn về số physical cores. 
+
+Điều này hợp lý vì decode của LLM thường bị chặn bởi memory bandwidth hơn là compute thuần. Khi dùng 16 logical threads trên CPU có 8 physical cores, các hyperthreads tranh nhau cùng cache, memory bandwidth và execution resources. Thêm thread không tạo thêm băng thông bộ nhớ, mà còn tăng scheduling overhead và contention. Với `-t 8`, mỗi physical core làm việc hiệu quả hơn, nên throughput cao hơn rõ rệt.
+
+(Có sử dụng AI để chau chuốt câu từ. ý hiểu ban đầu là từ 8 -> 16 đã giảm tok/s, lí giải do thiếu băng thông bộ nhớ)
 
 ---
 
