@@ -21,10 +21,7 @@ Use this in your run:
 LAB_N_THREADS=8 make bench
 ```
 
-## Your explanation (required -- replace this line)
+## Your explanation
+Where is the knee, and why there? If the peak sits at your physical core count and drops above it, say what the extra threads are competing for. If your curve does something else -- flat, or still climbing at 2x logical cores -- say that instead and reason about why. A result that contradicts the expected shape is worth more than one that matches it, as long as you explain it.
 
-_Where is the knee, and why there? If the peak sits at your physical core count
-and drops above it, say what the extra threads are competing for. If your curve
-does something else -- flat, or still climbing at 2x logical cores -- say that
-instead and reason about why. A result that contradicts the expected shape is
-worth more than one that matches it, as long as you explain it._
+Knee là -t 8, khi tăng thread giá trị tok/s tăng theo và đạt đỉnh tại 16,8 tok/s sau đó giảm khi tăng lên 16 threads. Vấn là memory bandwidth đã trình bày trong reflextion
