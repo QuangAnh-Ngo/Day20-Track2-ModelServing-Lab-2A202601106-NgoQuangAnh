@@ -6,9 +6,9 @@
 >
 > `make verify` sẽ fail nếu còn placeholder chưa điền. Đó là cố ý.
 
-**Họ Tên:** _<Họ Tên>_
-**Cohort:** _<A20-K1 / A20-K2 / ...>_
-**Ngày submit:** _<YYYY-MM-DD>_
+**Họ Tên:** _Ngô Quang Anh_
+**Cohort:** _2A202601106_
+**Ngày submit:** _20/8/2026_
 
 ---
 
@@ -39,7 +39,7 @@
   source build  : -DGGML_CUDA=ON  (bonus B1 -- not used by the base track)
   Tracks open   : 01-measure, 02-serve, 03-integrate, bonus/sweeps
 
-**Chạy ở đâu:** _<laptop của tôi>_
+**Chạy ở đâu:** _laptop của tôi_
 _(Nếu dùng cloud fallback: nói rõ vì sao — RAM < 8 GB, setup fail, v.v. Không mất điểm.)_
 
 **Setup story** (≤ 80 chữ): điều gì cần thay đổi để lab chạy trên máy bạn? Có bước
@@ -72,22 +72,22 @@ Không đáng. Đã trả lời chi tiết trong quickstart
 
 | Users | RPS | P50 (ms) | P95 (ms) | P99 (ms) | Eff. concurrency | Failures |
 |--:|--:|--:|--:|--:|--:|--:|
-| 10 | | | | | | |
-| 50 | | | | | | |
+| 10 | 0.35 | 23000 | 29000 | 29000 | 6.9 | 0.0% |
+| 50 | 0.55 | 25000 | 44000 | 50000 | 14.2 | 0.0% |
 
-- **Offered load tăng 5×, throughput thực tăng:** _<X.XX>×_
-- **P95 tăng:** _<X.XX>×_
-- **Effective concurrency ở 50 users:** _<số>_ so với `--parallel` = _<số>_ slots
+- **Offered load tăng 5x, throughput thực tăng:** 1.58x
+- **P95 tăng:** 1.52x
+- **Effective concurrency ở 50 users:** 14.2 so với `--parallel` = 4 slots
 
 **Peak `llamacpp:n_busy_slots_per_decode`** (từ `make metrics` khi `make load-50` đang
-chạy): _<số>_ / _<slots>_ slots
+chạy): 3.89 / 4 slots
 
 **Saturation reading** (≤ 80 chữ): server của bạn bão hoà ở đâu, và **bằng chứng nào**
 thuyết phục bạn? Nếu P95 tăng nhanh hơn RPS thì phần latency thêm đó là queue time hay
 compute time — bạn biết bằng cách nào? Nếu bạn phải nâng goodput@SLO, bạn sẽ đổi knob
 nào **trước**, và vì sao knob đó?
 
-_Answer here._
+Server bắt đầu bão hòa giữa 10 và 50 users. Bằng chứng thuyết phục nhất là offered load tăng 5x nhưng throughput chỉ tăng 1.58x, trong khi effective concurrency ở 50 users là 14.2 so với `--parallel 4`. Peak busy slots 3.89/4 và `requests_deferred=46` cho thấy latency tăng chủ yếu do queueing. Tôi sẽ thử tăng `--parallel` trước, rồi re-measure P95/TPOT.
 
 ---
 
@@ -173,7 +173,7 @@ _(để trống nếu bạn không làm phần này)_
 ## 7. Điều làm bạn ngạc nhiên nhất  *(optional)*
 
 _(1–2 câu. Không bắt buộc, nhưng grader đọc hết.)_
-
+Không làm phần nào cơ
 _(để trống nếu bạn không làm phần này)_
 
 ---
