@@ -97,23 +97,23 @@ _Answer here._
 
 | Day | Piece | Real hay stub? |
 |---|---|---|
-| N16 Cloud/IaC | | |
-| N17 Data pipeline | | |
-| N18 Lakehouse | | |
-| N19 Vector + features | | |
+| N16 Cloud/IaC | local run, không deploy cloud/IaC thật | stub |
+| N17 Data pipeline | context nhỏ được chuẩn bị sẵn trong script | stub |
+| N18 Lakehouse | không đọc từ lakehouse thật | stub |
+| N19 Vector + features | keyword overlap fallback, không dùng vector DB/feature store thật | stub |
 | N20 Serving | `llama-server` | real |
 
 **Latency split** (mean của 3 query, từ output của `pipeline.py`):
 
-- embed: _<ms>_
-- retrieve: _<ms>_
-- llm: _<ms>_
-- **stage chiếm nhiều nhất:** _<stage>_ (_<%>_ của total)
+- embed: 0.0 ms
+- retrieve: 0.1 ms
+- llm: 4159.3 ms
+- **stage chiếm nhiều nhất:** llm (100% của total)
 
 **Reflection** (≤ 60 chữ): bottleneck ở đâu? Có khớp với kỳ vọng của bạn không? Nếu
 phải giảm latency của pipeline này 2×, bạn sẽ tấn công vào đâu?
 
-_Answer here._
+Nghẽn cổ chai nằm ở stage LLM: 4159.3 ms trên tổng 4159.4 ms.Để giảm latency 2x => tối ưu LLM trước: giảm max_tokens, dùng LAB_N_THREADS=8, hoặc thử CUDA/GPU offload.
 
 ---
 
